@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+
+<robot name="tripod">
+
+            <material name="linkWhite">
+                <color rgba="0.8 0.8 0.8 1"/>
+            </material>
+
+            <material name="leg_A_link_color">
+                <color rgba="1.0 0.3 0.3 1"/>
+            </material>
+            
+            <material name="leg_B_link_color">
+                <color rgba="0.3 1.0 0.3 1"/>
+            </material>
+            
+            <material name="leg_C_link_color">
+                <color rgba="0.3 0.3 1.0 1"/>
+            </material>
+
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+
+    <link name="[base_link]">
+        <visual>
+            <geometry>
+                <mesh filename="./model/base simple v4 mesh.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="linkWhite"/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="./model/base simple v4 mesh.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.100"/>
+            <inertia    ixx="1.192E+05"     ixy="-0.016"        ixz="-0.018"
+                        iyx="-0.016"        iyy="1.192E+05"     iyz="0.015"
+                        izx="-0.018"        izy="0.015"         izz="2.177E+05" />
+        </inertial>
+    </link>
+    
+    <joint name="[base_link]_to_[motor_A_0]" type="fixed">
+        <parent link="[base_link]"/>
+        <child link="[motor_A_0]"/>
+        <origin xyz="0.065000 -0.0409 -0.02045" />
+    </joint>
+
+    <link name="[motor_A_0]">
+        <visual>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0.019 0"/>
+            <mass value="0.042"/>
+            <inertia iyy="+2.3637802e+04" iyz="-1.3104499e+02" iyx="-7.0722547e+01"
+                     izy="-1.3104499e+02" izz="+1.2925400e+04" izx="-1.8421436e+03"
+                     ixy="-7.0722547e+01" ixz="-1.8421436e+03" ixx="+2.11e8506e+04" />
+        </inertial>
+    </link>
+
+    <joint name="[motor_A_0]_to_[motor_A_1]" type="revolute">
+        <parent link="[motor_A_0]"/>
+        <child link="[motor_A_1]"/>
+        <origin xyz="0.0 0.0409 0.0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+    
+    <link name="[motor_A_1]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_A_1]_to_[leg_A_link_1]" type="revolute">
+        <parent link="[motor_A_1]"/>
+        <child link="[leg_A_link_1]"/>
+        <origin xyz="0.0 0.0 -0.021"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_A_link_1]">
+        <visual>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_A_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.021"/>
+            <inertia    ixx="3.056E+04"     ixy="-8.318E-04"    ixz="-0.027"
+                        iyx="-8.318E-04"    iyy="3.683E+04"     iyz="108.31"
+                        izx="-0.027"        izy="108.31"        izz="8401.458" />
+        </inertial>
+    </link>
+        
+    <joint name="[leg_A_link_1]_to_[motor_A_2]" type="fixed">
+        <parent link="[leg_A_link_1]"/>
+        <child link="[motor_A_2]"/>
+        <origin xyz="0.0 0.0 -0.09" rpy="0 0 0"/>
+    </joint>
+    
+    <link name="[motor_A_2]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_A_2]_to_[leg_A_link_2]" type="revolute">
+        <parent link="[motor_A_2]"/>
+        <child link="[leg_A_link_2]"/>
+        <origin xyz="0.0 0.0 0"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_A_link_2]">
+        <visual>
+            <geometry>
+                <mesh filename="./m3 to end simple v6 low.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_A_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision concave="yes">
+            <geometry>
+                <mesh filename="./m3 to end simple v6 filled 20.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <collision>
+            <geometry>
+                <sphere radius="0.009"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 -0.09"/>
+        </collision>
+        <inertial>
+            <mass value="0.029"/>
+            <inertia    ixx="7.579E+04"     ixy="6.020E-05"     ixz="-7.095E-04"
+                        iyx="6.020E-05"     iyy="8.254E+04"     iyz="-415.817"
+                        izx="-7.095E-04"    izy="-415.817"      izz="8137.146" />
+        </inertial>
+    </link>
+        
+    <!-- ######################################################################################################  -->
+
+    <joint name="[base_link]_to_[motor_B_0]" type="fixed">
+        <parent link="[base_link]"/>
+        <child link="[motor_B_0]"/>
+        <origin xyz="0.0029204390147835 0.076741651245989 -0.02045" rpy="0 0 2.09439510239" />
+    </joint>
+
+    <link name="[motor_B_0]">
+        <visual>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0.019 0"/>
+            <mass value="0.042"/>
+            <inertia iyy="+2.3637802e+04" iyz="-1.3104499e+02" iyx="-7.0722547e+01"
+                     izy="-1.3104499e+02" izz="+1.2925400e+04" izx="-1.8421436e+03"
+                     ixy="-7.0722547e+01" ixz="-1.8421436e+03" ixx="+2.11e8506e+04" />
+        </inertial>
+    </link>
+
+    <joint name="[motor_B_0]_to_[motor_B_1]" type="revolute">
+        <parent link="[motor_B_0]"/>
+        <child link="[motor_B_1]"/>
+        <origin xyz="0.0 0.0409 0.0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+    
+    <link name="[motor_B_1]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_B_1]_to_[leg_B_link_1]" type="revolute">
+        <parent link="[motor_B_1]"/>
+        <child link="[leg_B_link_1]"/>
+        <origin xyz="0.0 0.0 -0.021"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_B_link_1]">
+        <visual>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_B_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.021"/>
+            <inertia    ixx="3.056E+04"     ixy="-8.318E-04"    ixz="-0.027"
+                        iyx="-8.318E-04"    iyy="3.683E+04"     iyz="108.31"
+                        izx="-0.027"        izy="108.31"        izz="8401.458" />
+        </inertial>
+    </link>
+        
+    <joint name="[leg_B_link_1]_to_[motor_B_2]" type="fixed">
+        <parent link="[leg_B_link_1]"/>
+        <child link="[motor_B_2]"/>
+        <origin xyz="0.0 0.0 -0.09" rpy="0 0 0"/>
+    </joint>
+    
+    <link name="[motor_B_2]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_B_2]_to_[leg_B_link_2]" type="revolute">
+        <parent link="[motor_B_2]"/>
+        <child link="[leg_B_link_2]"/>
+        <origin xyz="0.0 0.0 0"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_B_link_2]">
+        <visual>
+            <geometry>
+                <mesh filename="./m3 to end simple v6 low.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_B_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision concave="yes">
+            <geometry>
+                <mesh filename="./m3 to end simple v6 filled 20.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <collision>
+            <geometry>
+                <sphere radius="0.009"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 -0.09"/>
+        </collision>
+        <inertial>
+            <mass value="0.029"/>
+            <inertia    ixx="7.579E+04"     ixy="6.020E-05"     ixz="-7.095E-04"
+                        iyx="6.020E-05"     iyy="8.254E+04"     iyz="-415.817"
+                        izx="-7.095E-04"    izy="-415.817"      izz="8137.146" />
+        </inertial>
+    </link>
+    <!-- ######################################################################################################  -->
+
+
+    <joint name="[base_link]_to_[motor_C_0]" type="fixed">
+        <parent link="[base_link]"/>
+        <child link="[motor_C_0]"/>
+        <origin xyz="-0.067920439014784 -0.035841651245989 -0.02045" rpy="0 0 4.18879020479" />
+    </joint>
+
+    <link name="[motor_C_0]">
+        <visual>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.0465 0.034 0.0285"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="-0.009 0 0"/>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0.019 0"/>
+            <mass value="0.042"/>
+            <inertia iyy="+2.3637802e+04" iyz="-1.3104499e+02" iyx="-7.0722547e+01"
+                     izy="-1.3104499e+02" izz="+1.2925400e+04" izx="-1.8421436e+03"
+                     ixy="-7.0722547e+01" ixz="-1.8421436e+03" ixx="+2.11e8506e+04" />
+        </inertial>
+    </link>
+
+    <joint name="[motor_C_0]_to_[motor_C_1]" type="revolute">
+        <parent link="[motor_C_0]"/>
+        <child link="[motor_C_1]"/>
+        <origin xyz="0.0 0.0409 0.0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+    
+    <link name="[motor_C_1]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 -0.009"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_C_1]_to_[leg_C_link_1]" type="revolute">
+        <parent link="[motor_C_1]"/>
+        <child link="[leg_C_link_1]"/>
+        <origin xyz="0.0 0.0 -0.021"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_C_link_1]">
+        <visual>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_C_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="./m2 to m3 link v4 col.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.021"/>
+            <inertia    ixx="3.056E+04"     ixy="-8.318E-04"    ixz="-0.027"
+                        iyx="-8.318E-04"    iyy="3.683E+04"     iyz="108.31"
+                        izx="-0.027"        izy="108.31"        izz="8401.458" />
+        </inertial>
+    </link>
+        
+    <joint name="[leg_C_link_1]_to_[motor_C_2]" type="fixed">
+        <parent link="[leg_C_link_1]"/>
+        <child link="[motor_C_2]"/>
+        <origin xyz="0.0 0.0 -0.09" rpy="0 0 0"/>
+    </joint>
+    
+    <link name="[motor_C_2]">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+            <material name="motorColor"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.012"/>
+            <geometry>
+                <box size="0.034 0.028 0.0465"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.019 0 -0.021"/>
+            <mass value="0.042"/>
+            <inertia izz="+2.3637802e+04" izx="+1.3104499e+02" izy="+7.0722547e+01"
+                     ixz="+1.3104499e+02" ixx="+1.2925400e+04" ixy="-1.8421436e+03"
+                     iyz="+7.0722547e+01" iyx="-1.8421436e+03" iyy="+2.11e8506e+04" />
+        </inertial>
+    </link>
+    
+    <joint name="[motor_C_2]_to_[leg_C_link_2]" type="revolute">
+        <parent link="[motor_C_2]"/>
+        <child link="[leg_C_link_2]"/>
+        <origin xyz="0.0 0.0 0"  rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="100" lower="-3.1" upper="+3.1" velocity="100"/>
+        <dynamics damping="0"/>
+    </joint>
+
+
+    <link name="[leg_C_link_2]">
+        <visual>
+            <geometry>
+                <mesh filename="./m3 to end simple v6 low.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="leg_C_link_color"/>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </visual>
+        <collision concave="yes">
+            <geometry>
+                <mesh filename="./m3 to end simple v6 filled 20.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0"/>
+        </collision>
+        <collision>
+            <geometry>
+                <sphere radius="0.009"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 -0.09"/>
+        </collision>
+        <inertial>
+            <mass value="0.029"/>
+            <inertia    ixx="7.579E+04"     ixy="6.020E-05"     ixz="-7.095E-04"
+                        iyx="6.020E-05"     iyy="8.254E+04"     iyz="-415.817"
+                        izx="-7.095E-04"    izy="-415.817"      izz="8137.146" />
+        </inertial>
+    </link>
+        
+</robot>
