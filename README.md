@@ -4,4 +4,4 @@ three-legged robot project
 
 ## tripedal_walk_example.py and tripedal_walkGenerator.py
 
-Youtube video: <https://youtu.be/5MpcD8YFSbI>
+[![.](https://img.youtube.com/vi/gjgA0iIDtUk/0.jpg)](https://www.youtube.com/watch?v=gjgA0iIDtUk)
