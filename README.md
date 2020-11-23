@@ -9,5 +9,5 @@ PybulletSimulation/tripedal_walk_example.py
 PybulletSimulation/tripedal_walkGenerator.py
 
 
-outube video --> 
+youtube video --> 
 [![https://youtu.be/gjgA0iIDtUk](https://img.youtube.com/vi/gjgA0iIDtUk/0.jpg)](https://www.youtube.com/watch?v=gjgA0iIDtUk)
