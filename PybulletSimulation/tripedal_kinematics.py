@@ -17,28 +17,21 @@ class TripedalKinematics():
         self._L2 = 90.0
         self._LinkSum = self._L0 + self._L1 + self._L2
 
-        self._GroundCenterPoint = np.array(
-            [0, 0, self._StartZ - self._LinkSum])
+        self._GroundCenterPoint = np.array([0, 0, self._StartZ - self._LinkSum])
 
-        self._GroundPointA = np.array(
-            [self._StartX, self._StartY, self._StartZ - self._LinkSum])
+        self._GroundPointA = np.array([self._StartX, self._StartY, self._StartZ - self._LinkSum])
 
         rotation = math.pi * 2 / 3
-        rx = math.cos(rotation) * self._StartX - math.sin(
-            rotation) * self._StartY
-        ry = math.sin(rotation) * self._StartX + math.cos(
-            rotation) * self._StartY
+        rx = math.cos(rotation) * self._StartX - math.sin(rotation) * self._StartY
+        ry = math.sin(rotation) * self._StartX + math.cos(rotation) * self._StartY
         self._GroundPointB = np.array([rx, ry, self._StartZ - self._LinkSum])
 
         rotation = -math.pi * 2 / 3
-        rx = math.cos(rotation) * self._StartX - math.sin(
-            rotation) * self._StartY
-        ry = math.sin(rotation) * self._StartX + math.cos(
-            rotation) * self._StartY
+        rx = math.cos(rotation) * self._StartX - math.sin(rotation) * self._StartY
+        ry = math.sin(rotation) * self._StartX + math.cos(rotation) * self._StartY
         self._GroundPointC = np.array([rx, ry, self._StartZ - self._LinkSum])
 
-    def SetParameter(self, startX, startY, startZ, linkYtoX, linkUpleglength,
-                     linkDownLegLength):
+    def SetParameter(self, startX, startY, startZ, linkYtoX, linkUpleglength, linkDownLegLength):
         self._StartX = startX
         self._StartY = startY
         self._StartZ = startZ
@@ -49,70 +42,60 @@ class TripedalKinematics():
 
         self._LinkSum = self._L0 + self._L1 + self._L2
 
-        self._GroundCenterPoint = np.array(
-            [0, 0, self._StartZ - self._LinkSum])
+        self._GroundCenterPoint = np.array([0, 0, self._StartZ - self._LinkSum])
 
-        self._GroundPointA = np.array(
-            [self._StartX, self._StartY, self._StartZ - self._LinkSum])
+        self._GroundPointA = np.array([self._StartX, self._StartY, self._StartZ - self._LinkSum])
 
         rotation = math.pi * 2 / 3
-        rx = math.cos(rotation) * self._StartX - math.sin(
-            rotation) * self._StartY
-        ry = math.sin(rotation) * self._StartX + math.cos(
-            rotation) * self._StartY
+        rx = math.cos(rotation) * self._StartX - math.sin(rotation) * self._StartY
+        ry = math.sin(rotation) * self._StartX + math.cos(rotation) * self._StartY
         self._GroundPointB = np.array([rx, ry, self._StartZ - self._LinkSum])
 
         rotation = -math.pi * 2 / 3
-        rx = math.cos(rotation) * self._StartX - math.sin(
-            rotation) * self._StartY
-        ry = math.sin(rotation) * self._StartX + math.cos(
-            rotation) * self._StartY
+        rx = math.cos(rotation) * self._StartX - math.sin(rotation) * self._StartY
+        ry = math.sin(rotation) * self._StartX + math.cos(rotation) * self._StartY
         self._GroundPointC = np.array([rx, ry, self._StartZ - self._LinkSum])
 
     def GetMotorAnglesFromPointsXYZ(self, xa, ya, za, xb, yb, zb, xc, yc, zc):
-        return self.InverseLegA(xa, ya, za) + self.InverseLegB(
-            xb, yb, zb) + self.InverseLegC(xc, yc, zc)
+        return self.InverseLegA(xa, ya, za) + self.InverseLegB(xb, yb, zb) + self.InverseLegC(xc, yc, zc)
 
     def GetMotorAnglesFromPoints(self, a, b, c):
-        return self.InverseLegA(a[0], a[1], a[2]) + self.InverseLegB(
-            b[0], b[1], b[2]) + self.InverseLegC(c[0], c[1], c[2])
+        return self.InverseLegA(a[0], a[1], a[2]) + self.InverseLegB(b[0], b[1], b[2]) + self.InverseLegC(c[0], c[1], c[2])
 
-    def GetMotorAnglesFromInitialPointsXYZ(self, xa, ya, za, xb, yb, zb, xc,
-                                           yc, zc):
-        return self.InverseLegAFromInitialPoint(
-            xa, ya, za) + self.InverseLegBFromInitialPoint(
-                xb, yb, zb) + self.InverseLegCFromInitialPoint(xc, yc, zc)
+    def GetMotorAnglesFromInitialPointsXYZ(self, xa, ya, za, xb, yb, zb, xc, yc, zc):
+        return self.InverseLegAFromInitialPoint(xa, ya, za) + self.InverseLegBFromInitialPoint(
+            xb, yb, zb) + self.InverseLegCFromInitialPoint(xc, yc, zc)
 
     def GetMotorAnglesFromInitialPoints(self, a, b, c):
-        return self.InverseLegAFromInitialPoint(
-            a[0], a[1], a[2]) + self.InverseLegBFromInitialPoint(
-                b[0], b[1], b[2]) + self.InverseLegCFromInitialPoint(
-                    c[0], c[1], c[2])
+        return self.InverseLegAFromInitialPoint(a[0], a[1], a[2]) + self.InverseLegBFromInitialPoint(
+            b[0], b[1], b[2]) + self.InverseLegCFromInitialPoint(c[0], c[1], c[2])
 
-    def GetMotorAnglesFromGroundCenterPointsXYZ(self, xa, ya, za, xb, yb, zb,
-                                                xc, yc, zc):
-        return self.InverseLegA(xa, ya, za) + self.InverseLegB(
-            xb, yb, zb) + self.InverseLegC(xc, yc, zc)
+    def GetMotorAnglesFromRelativePointsXYZ(self, xa, ya, za, xb, yb, zb, xc, yc, zc):
+        return self.InverseLegA(xa, ya, za) + self.InverseLegB(xb, yb, zb) + self.InverseLegC(xc, yc, zc)
 
-    def GetMotorAnglesFromGroundCenterPoints(self, a, b, c):
+    def GetMotorAnglesFromRelativePoints(self, a, b, c):
         pointA = a + self._GroundCenterPoint
         pointB = b + self._GroundCenterPoint
         pointC = c + self._GroundCenterPoint
-        return self.InverseLegA(
-            pointA[0], pointA[1], pointA[2]) + self.InverseLegB(
-                pointB[0], pointB[1], pointB[2]) + self.InverseLegC(
-                    pointC[0], pointC[1], pointC[2])
+        return self.InverseLegA(pointA[0], pointA[1], pointA[2]) + self.InverseLegB(
+            pointB[0], pointB[1], pointB[2]) + self.InverseLegC(pointC[0], pointC[1], pointC[2])
 
-    def GetMotorDegreeAnglesFromGroundCenterPoints(self, a, b, c):
+    def GetMotorAnglesFromRelativeNinePoints(self, abc):
+        return self.InverseLegA(abc[0] + self._GroundCenterPoint[0], abc[1] + self._GroundCenterPoint[0],
+                                abc[2] + self._GroundCenterPoint[0]) + self.InverseLegB(
+                                    abc[3] + self._GroundCenterPoint[3], abc[4] + self._GroundCenterPoint[4],
+                                    abc[5] + self._GroundCenterPoint[5]) + self.InverseLegC(
+                                        abc[6] + self._GroundCenterPoint[6], abc[7] + self._GroundCenterPoint[7],
+                                        abc[8] + self._GroundCenterPoint[8])
+
+    def GetMotorDegreeAnglesFromAbsoluteCoordPoints(self, a, b, c):
         pointA = a + self._GroundCenterPoint
         pointB = b + self._GroundCenterPoint
         pointC = c + self._GroundCenterPoint
         return list(
             np.array(
-                self.InverseLegA(pointA[0], pointA[1], pointA[2]) +
-                self.InverseLegB(pointB[0], pointB[1], pointB[2]) +
-                self.InverseLegC(pointC[0], pointC[1], pointC[2])) * 180 /
-            math.pi)
+                self.InverseLegA(pointA[0], pointA[1], pointA[2]) + self.InverseLegB(pointB[0], pointB[1], pointB[2]) +
+                self.InverseLegC(pointC[0], pointC[1], pointC[2])) * 180 / math.pi)
 
     def InverseLegA(self, x, y, z):
         # Leg 1 inverse kinematics.
@@ -132,11 +115,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
@@ -158,11 +138,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
@@ -189,11 +166,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
@@ -220,11 +194,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
@@ -251,11 +222,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
@@ -282,11 +250,8 @@ class TripedalKinematics():
 
         angle0 = -math.pi / 2 + math.atan2(tz, tx)
         angle1 = math.atan2(ty, d_projXZ) + math.acos(
-            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) /
-            (2 * self._L1 * d12))
-        angle2 = -math.pi + math.acos(
-            (self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) /
-            (2 * self._L1 * self._L2))
+            (self._L1 * self._L1 + d12 * d12 - self._L2 * self._L2) / (2 * self._L1 * d12))
+        angle2 = -math.pi + math.acos((self._L1 * self._L1 + self._L2 * self._L2 - d12 * d12) / (2 * self._L1 * self._L2))
 
         return [angle0, angle1, angle2]
 
