@@ -356,7 +356,7 @@ class WalkGenerator():
         return self._resultVectorA, self._resultVectorB, self._resultVectorC, self._swayVector
 
 
-def ShowGraphAnimation():
+def ShowTestGraphAnimation():
     wg = WalkGenerator()
     wg.SetWalkParameter(moveDirection=0,
                         bodyMovePointsCount=10,
@@ -560,4 +560,5 @@ def SaveCSV():
 
 
 if __name__ == "__main__":
-    ShowGraphAnimation()
+    ShowTestGraphAnimation()
+    #SaveCSV()
