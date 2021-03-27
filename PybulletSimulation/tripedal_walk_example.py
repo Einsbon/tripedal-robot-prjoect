@@ -1,11 +1,6 @@
 import pybullet as p
-import time
-from time import sleep
 import pybullet_data
-import numpy as np
-import math
 import os
-import csv
 
 from motorController import MotorController
 from tripedal_kinematics import TripedalKinematics
@@ -33,13 +28,13 @@ p.changeDynamics(planeID, -1, lateralFriction=0.5)
 robotID = p.loadURDF(os.path.abspath(os.path.dirname(__file__)) + '/model/tripedalRobot.urdf', [0, 0, 0.25],
                      p.getQuaternionFromEuler([0, 0, 0]),
                      useFixedBase=False)
-motorsController = MotorController(robotID, physicsClient, fixedTimeStep, motor_kp, motor_kd, motor_torque,
+motor = MotorController(robotID, physicsClient, fixedTimeStep, motor_kp, motor_kd, motor_torque,
                                    motor_max_velocity)
 kinematicTool = TripedalKinematics()
-print(motorsController.getRevoluteJoint_nameToId())
+print(motor.getRevoluteJoint_nameToId())
 
-motorsController.setMotorsAngleInFixedTimestepSyncRealTime([0, 0, 0, 0, 0, 0, 0, 0, 0], 1, 0)
-motorsController.NoCommandSyncRealTime(1, 1)
+motor.setMotorsAngleInFixedTimestepSyncRealTime([0, 0, 0, 0, 0, 0, 0, 0, 0], 1, 0)
+motor.NoCommandSyncRealTime(1, 1)
 
 wg = WalkGenerator()
 wg.SetWalkParameter(moveDirection=0,
@@ -59,13 +54,13 @@ wg.SetWalkParameter(moveDirection=0,
 
 wg.InitProperty()
 
-motorsController.NoCommandSyncRealTime(1, 1)
+motor.NoCommandSyncRealTime(1, 1)
 
 pointA, pointB, pointC, _ = wg.MakeNextPoint()
-motorsController.setMotorsAngleInFixedTimestepSyncRealTime(
-    kinematicTool.GetMotorAnglesFromAbsoluteCoordPoints(pointA, pointB, pointC), 1, 0)
+motor.setMotorsAngleInFixedTimestepSyncRealTime(
+    kinematicTool.GetMotorAnglesFromRelativePoints(pointA, pointB, pointC), 1, 0)
 
-motorsController.NoCommandSyncRealTime(2, 1)
+motor.NoCommandSyncRealTime(2, 1)
 
 stepLengthControl = p.addUserDebugParameter("Step Length", -70, 70, wg._l)
 moveDirectionControl = p.addUserDebugParameter("Move Direction", -3.14, 3.14, wg._moveDirection)
@@ -81,5 +76,5 @@ while True:
         pass
 
     pointA, pointB, pointC, _ = wg.MakeNextPoint()
-    motorsController.setMotorsAngleInFixedTimestepSyncRealTime(
-        kinematicTool.GetMotorAnglesFromAbsoluteCoordPoints(pointA, pointB, pointC), 0.055, 0)
+    motor.setMotorsAngleInFixedTimestepSyncRealTime(
+        kinematicTool.GetMotorAnglesFromRelativePoints(pointA, pointB, pointC), 0.055, 0)
